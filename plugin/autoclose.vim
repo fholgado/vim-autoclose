@@ -23,6 +23,12 @@
 "          be sure to :set ttimeout and :set ttimeoutlen=100
 "
 "    Version Changes: --------------------------------------------------{{{2
+"    1.2.1 -- Added mapping for Ctrl + Tab to jump out of current pair. For
+"             example:
+"             Type { to get {|}, then hit Ctrl + Tab to jump out to {}|. This
+"             is a feature copied from Delimitmate that I found insanely
+"             useful. Feel free to change the mapping to somethign that you
+"             can work with.
 "    1.2   -- Fixed some edge cases where double the closing characters are
 "             entered when exiting insert mode.
 "             Finally (!) reproduced the arrow keys problem other people were
@@ -60,6 +66,13 @@ nmap <Plug>ToggleAutoCloseMappings :call <SID>ToggleAutoCloseMappings()<CR>
 if (!hasmapto( '<Plug>ToggleAutoCloseMappings', 'n' ))
     command AutoCloseToggle call <SID>ToggleAutoCloseMappings()
 endif
+
+" Maps Ctrl + Tab to jump out of current pair. Change the key combination to
+" your liking!
+inoremap <silent> <Plug>AutoCloseJumpOut <C-R>=<SID>JumpOut(getline('.')[col('.')-1])<CR>
+silent! imap <C-Tab> <Plug>AutoCloseJumpOut
+" 1}}}
+
 fun! <SID>AutoCloseMappingsOn() " {{{2
     inoremap <silent> " <C-R>=<SID>QuoteDelim('"')<CR>
     inoremap <silent> ` <C-R>=<SID>QuoteDelim('`')<CR>
